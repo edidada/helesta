@@ -208,7 +208,6 @@ DAG_IR::DAG_IR(NormalFunc *_func) : func(_func) {
     }
   });
 
-  size_t loop_cnt = 0;
   for (auto dom_x : reverse_view(dom->dfn)) {
     auto x = dom_x->bb;
     auto &xi = loop_tree[x];
@@ -221,7 +220,6 @@ DAG_IR::DAG_IR(NormalFunc *_func) : func(_func) {
     }
     if (xi.is_loop_head) {
       build_dag_dfn(x, x);
-      ++loop_cnt;
     }
   }
 
@@ -230,5 +228,4 @@ DAG_IR::DAG_IR(NormalFunc *_func) : func(_func) {
   check_dag(nullptr);
   // std::cerr << check_cnt << "  ;  " << reach_cnt << '\n';
   assert(check_cnt - 1 == reach_cnt);
-  // std::cerr << func->name << ": " << loop_cnt << '/' << reach_cnt << '\n';
 }
