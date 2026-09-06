@@ -30,19 +30,21 @@ jobs:
       if: ${{ contains(github.event.head_commit.message, '$fast') }}  
       run: python3 ./scripts/run_all.py --fuzz no-func-inline --fuzz no-opt --fast
 
-    - uses: actions/upload-artifact@v3
-      if: ${{ ! contains(github.event.head_commit.message, '$fast') }}  
+    - uses: actions/upload-artifact@v4
+      if: ${{ ! contains(github.event.head_commit.message, '$fast') }}
       with:
         name: asms-ins-outs
         path: ./testcases
+        include-hidden-files: true
 
-    - uses: actions/upload-artifact@v3
-      if: ${{ contains(github.event.head_commit.message, '$fast') }}  
+    - uses: actions/upload-artifact@v4
+      if: ${{ contains(github.event.head_commit.message, '$fast') }}
       with:
         name: asms-ins-outs
         path: ./testcases/performance
+        include-hidden-files: true
 
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: scripts
         path: ./scripts
@@ -58,20 +60,20 @@ jobs:
 
     - name: Pull Testcases
       if: ${{ ! contains(github.event.head_commit.message, '$fast') }}  
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: asms-ins-outs
         path: ./testcases
 
     - name: Pull Testcases
       if: ${{ contains(github.event.head_commit.message, '$fast') }}  
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: asms-ins-outs
         path: ./testcases/performance
 
     - name: Pull Scripts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: scripts
         path: ./scripts
